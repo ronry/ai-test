@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+		<div class="jumbotron jumbotron-fluid">
+		  <div class="container">
+			<h1 class="display-5">对诗模型</h1>
+			<p class="lead">基于深度学习的诗文生成</p>
+		  </div>
+		</div>
+		<div id='sentences'>
+		
+			<label for="s1">上句1</label>
+			<div class="input-group">
+			  <input type="text" class="form-control" id="s1">
+			</div>
+			
+		</div>
+		<br>
+		<button type="submit" class="btn btn-success" onclick="get_result()">生成下句</button>
+	</div>								
+	
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  </body>
+  <script>
+  let cur_id = 1;
+  function get_result() {
+	alert("准备向服务器发送请求生成下句！");
+	let xhr = new XMLHttpRequest();
+	let target = document.getElementById('s' + cur_id);
+	let v = target.value;
+	xhr.open('GET', '/get_next/?s1=' + v);
+　　xhr.send();
+	xhr.onreadystatechange = function(){
+　　　　if ( xhr.readyState == 4) {
+			if (xhr.status == 200) {
+　　　　　　	target.value = v;
+				target.disabled = true;
+				sentences.innerHTML += xhr.responseText;
+				cur_id ++;
+				sentences.innerHTML += '<label for="s'+cur_id+'">上句'+cur_id+'</label><div class="input-group"><input type="text" class="form-control" id="s'+cur_id+'"></div>'
+			}
+　　　　	else {
+　　　　　　	alert( xhr.responseText );
+			}
+　　　　}
+　　};
+  }
+  </script>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+		<div class="jumbotron jumbotron-fluid">
+		  <div class="container">
+			<h1 class="display-5">地址自动解析</h1>
+			<p class="lead">基于深度学习的中文地址自动解析</p>
+		  </div>
+		</div>
+		<label for="province">省/直辖市/自治区/特别行政区</label>
+		<div class="input-group">
+		  <input type="text" class="form-control" id="province" aria-describedby="basic-addon1">
+		  <span class="input-group-addon" id="basic-addon1">省/市/自治区/特别行政区</span>
+		</div>
+		<label for="city">城市</label>
+		<div class="input-group">
+		  <input type="text" class="form-control" id="city" aria-describedby="basic-addon2">
+		  <span class="input-group-addon" id="basic-addon2">市</span>
+		</div>
+		<label for="district">区</label>
+		<div class="input-group">
+		  <input type="text" class="form-control" id="district" aria-describedby="basic-addon3">
+		  <span class="input-group-addon" id="basic-addon3">区</span>
+		</div>
+		<label for="street">街道</label>
+		<div class="input-group">
+		  <input type="text" class="form-control" id="street" aria-describedby="basic-addon4">
+		  <span class="input-group-addon" id="basic-addon4">街道</span>
+		</div>
+		
+		<div class="form-group">
+		  <label for="exampleTextarea">智能解析</label>
+		  <textarea class="form-control" id="text" rows="5"></textarea>
+	    </div>
+		<button type="submit" class="btn btn-success" onclick="get_result()">解析</button>
+	</div>								
+	
+
+    <!-- jQuery first, then Tether, then Bootstrap JS. -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+  </body>
+  <script>
+  function get_result() {
+	alert("准备向服务器发送请求解析地址文本！");
+	let xhr = new XMLHttpRequest();
+	xhr.open('GET', '/parse_address/?addr=' + text.value);
+　　xhr.send();
+	xhr.onreadystatechange = function(){
+　　　　if ( xhr.readyState == 4) {
+			if (xhr.status == 200) {
+				// {'city': ['北', '京', '市'],
+				// 'country': ['海'],
+				// 'devZone': ['淀', '区'],
+				// 'poi': ['西', '土', '城', '路'],
+				// 'prov': ['1', '0', '号'],
+				// 'houseno': ['北'],
+				// 'otherinfo': ['京', '邮', '电', '大', '学']})
+				//['B-assist', 'I-assist', 'B-cellno', 'I-cellno', 'B-city', 'I-city', 'B-community', 'I-community', 'B-country', 'I-country', 'B-devZone', 'I-devZone', 'B-district', 'I-district', 'B-floorno', 'I-floorno', 'B-houseno', 'I-houseno', 'B-otherinfo', 'I-otherinfo', 'B-person', 'I-person', 'B-poi', 'I-poi', 'B-prov', 'I-prov', 'B-redundant', 'I-redundant', 'B-road', 'I-road', 'B-roadno', 'I-roadno', 'B-roomno', 'I-roomno', 'B-subRoad', 'I-subRoad', 'B-subRoadno', 'I-subRoadno', 'B-subpoi', 'I-subpoi', 'B-subroad', 'I-subroad', 'B-subroadno', 'I-subroadno', 'B-town', 'I-town']
+　　　　　　	let result = JSON.parse(xhr.responseText);
+				province.value = result['prov'];
+				city.value = result['city'];
+				district.value = result['district']||result['devZone'];
+				street.value = result['road'] || result['subRoad'];
+			}
+　　　　	else {
+　　　　　　	alert( xhr.responseText );
+			}
+　　　　}
+　　};
+  }
+  </script>
+</html>
