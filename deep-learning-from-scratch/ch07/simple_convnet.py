@@ -1,10 +1,11 @@
 # coding: utf-8
 import sys, os
+
+from common.layers import *
+
 sys.path.append(os.pardir)  # 为了导入父目录的文件而进行的设定
 import pickle
-import numpy as np
 from collections import OrderedDict
-from common.layers import *
 from common.gradient import numerical_gradient
 
 

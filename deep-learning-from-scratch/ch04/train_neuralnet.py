@@ -3,7 +3,7 @@ import sys, os
 sys.path.append(os.pardir)  # 为了导入父目录的文件而进行的设定
 import numpy as np
 import matplotlib.pyplot as plt
-from mydataset.mnist import load_mnist
+from dataset.mnist import load_mnist
 from two_layer_net import TwoLayerNet
 
 # 读入数据
@@ -23,11 +23,12 @@ test_acc_list = []
 iter_per_epoch = max(train_size / batch_size, 1)
 
 for i in range(iters_num):
+    print("train round " + str(i))
     batch_mask = np.random.choice(train_size, batch_size)
     x_batch = x_train[batch_mask]
     t_batch = t_train[batch_mask]
     
-    # 计算梯度
+    # 训练，计算梯度
     grad = network.numerical_gradient(x_batch, t_batch)
     # grad = network.gradient(x_batch, t_batch)
     

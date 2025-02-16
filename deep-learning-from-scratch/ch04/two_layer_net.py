@@ -1,8 +1,9 @@
 # coding: utf-8
 import sys, os
+import numpy as np
 sys.path.append(os.pardir)  # 为了导入父目录的文件而进行的设定
-from common.functions import *
 from common.gradient import numerical_gradient
+from common.functions import softmax, cross_entropy_error,sigmoid
 
 
 class TwoLayerNet:
@@ -26,10 +27,11 @@ class TwoLayerNet:
         
         return y
         
-    # x:输入数据, t:监督数据
+    # x:输入数据, t:监督数据;
     def loss(self, x, t):
         y = self.predict(x)
-        
+
+        # 交叉熵误差
         return cross_entropy_error(y, t)
     
     def accuracy(self, x, t):
@@ -45,7 +47,7 @@ class TwoLayerNet:
         loss_W = lambda W: self.loss(x, t)
         
         grads = {}
-        grads['W1'] = numerical_gradient(loss_W, self.params['W1'])
+        grads['W1'] = numerical_gradient(loss_W, self.params['W1']) #其他几个维度权重和偏移量固定，然后求当前这个维度的权重的数值梯度:基于偏移过的权重进行一次计算然后计算误差；实际传进去的是对象的引用？
         grads['b1'] = numerical_gradient(loss_W, self.params['b1'])
         grads['W2'] = numerical_gradient(loss_W, self.params['W2'])
         grads['b2'] = numerical_gradient(loss_W, self.params['b2'])

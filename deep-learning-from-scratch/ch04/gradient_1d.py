@@ -28,4 +28,10 @@ y2 = tf(x)
 
 plt.plot(x, y)
 plt.plot(x, y2)
+# plt.show()
+
+tf = tangent_line(function_1, 10)
+y3 = tf(x)
+
+plt.plot(x, y3)
 plt.show()

@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from dataset.mnist import load_mnist
 from common.multi_layer_net_extend import MultiLayerNetExtend
-from common.optimizer import SGD, Adam
+from common import SGD
 
 (x_train, t_train), (x_test, t_test) = load_mnist(normalize=True)
 

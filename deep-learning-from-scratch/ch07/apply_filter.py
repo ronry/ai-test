@@ -1,11 +1,13 @@
 # coding: utf-8
 import sys, os
+
+from common.layers import Convolution
+
 sys.path.append(os.pardir)  # 为了导入父目录的文件而进行的设定
 import numpy as np
 import matplotlib.pyplot as plt
 from simple_convnet import SimpleConvNet
 from matplotlib.image import imread
-from common.layers import Convolution
 
 def filter_show(filters, nx=4, show_num=16):
     """
