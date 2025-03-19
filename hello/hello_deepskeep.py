@@ -22,6 +22,8 @@ load_in_4bit = True # Use 4bit quantization to reduce memory usage. Can be False
 #     "unsloth/gemma-2-27b-bnb-4bit",            # Gemma 2x faster!
 # ] # More models at https://huggingface.co/unsloth
 
+print("let begion!!!")
+
 model, tokenizer = FastLanguageModel.from_pretrained(
     model_name = "unsloth/Meta-Llama-3.1-8B",
     max_seq_length = max_seq_length,
@@ -29,3 +31,5 @@ model, tokenizer = FastLanguageModel.from_pretrained(
     load_in_4bit = load_in_4bit,
     # token = "hf_...", # use one if using gated models like meta-llama/Llama-2-7b-hf
 )
+
+print("success!!")
