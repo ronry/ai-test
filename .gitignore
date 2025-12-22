@@ -3,3 +3,6 @@
 /bin/
 /pytorch-nlp/neural-chinese-address-parsing/.idea/
 /models
+/.venv
+/.venv1
+/.venv2
